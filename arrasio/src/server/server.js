@@ -17,6 +17,11 @@ const util = require('./lib/util');
 const ran = require('./lib/random');
 const hshg = require('./lib/hshg');
 
+const TEST_GAMEMODE = !process.argv.includes('--production')
+
+// define gamemode
+const gamemode = {};
+
 // Let's get a cheaper array removal thing
 Array.prototype.remove = index => {
     if(index === this.length - 1){
@@ -2466,6 +2471,9 @@ class Entity {
                 (this.team !== -3 && room.isIn('bas3', loc)) ||
                 (this.team !== -4 && room.isIn('bas4', loc))
             ) { this.kill(); }
+        }
+	if (gamemode.mortality(this)) {
+            this.kill()
         }
     }
 
